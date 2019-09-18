@@ -1,0 +1,43 @@
+What are the differences between composer update and composer install?
+composer update will update your depencencies as they are specified in composer.json
+For example, if you require this package as a dependency:
+"mockery/mockery": "0.9.*",
+and you have actually installed the 0.9.1 version of the package, running composer update will cause an upgrade of this package
+(for example to 0.9.2, if it's already been released)
+in detail composer update will:
+Read composer.json
+Remove installed packages that are no more required in composer.json
+Check the availability of the latest versions of your required packages
+Install the latest versions of your packages
+Update composer.lock to store the installed packages version
+composer install
+composer install will not update anything; it will just install all the dependencies as specified in the composer.lock file
+In detail:
+Check if composer.lock file exists (if not, run composer-update and create it)
+Read composer.lock file
+Install the packages specified in the composer.lock file
+When to install and when to update
+composer update is mostly used in the 'development phase',
+to upgrade our project packages according to what we have specified in the composer.json file,
+composer install is primarily used in the 'deploying phase' to install 
+our application on a production server or on a testing environment, using the same dependencies 
+stored in the composer.lock file created by composer update.
+When you run composer install it will look for a lock file and install whatever is contained in it, if it can't find one, it'll read composer.json, install its dependencies and generate a lockfile.
+
+When you run composer update it simply reads composer.json, installs the dependencies and updates the lockfile (or creates a new lockfile).
+composer install
+If composer.lock does exist.
+Processes and installs dependencies from the composer.lock file.
+If composer.lock does not exist.
+Process package installs from composer.json.
+Creates the composer.lock file based on the installed packages.
+As per: composer help install:
+
+The install command reads the composer.lock file from the current directory, processes it, and downloads and installs all the libraries and dependencies outlined in that file. If the file does not exist it will look for composer.json and do the same.
+
+composer update
+Processes dependencies from the composer.json file (installs, updates and removes).
+Creates or updates the composer.lock file according to the changes.
+As per: composer help update:
+
+The update command reads the composer.json file from the current directory, processes it, and updates, removes or installs all the dependencies.
